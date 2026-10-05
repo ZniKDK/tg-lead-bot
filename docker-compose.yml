@@ -4,4 +4,5 @@ services:
     env_file: .env
     volumes:
       - ./data:/app/data
+      - ./config.toml:/app/config.toml:ro
     restart: unless-stopped
