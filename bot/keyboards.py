@@ -20,10 +20,10 @@ def services_kb(services: tuple[Service, ...]) -> InlineKeyboardMarkup:
     return builder.as_markup()
 
 
-def dates_kb(days: list[date]) -> InlineKeyboardMarkup:
+def dates_kb(days: list[date], today: date) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
     for day in days:
-        builder.button(text=format_date(day), callback_data=f"date:{day.isoformat()}")
+        builder.button(text=format_date(day, today), callback_data=f"date:{day.isoformat()}")
     builder.button(text="⬅️ Назад", callback_data="back:service")
     builder.adjust(3)
     return builder.as_markup()

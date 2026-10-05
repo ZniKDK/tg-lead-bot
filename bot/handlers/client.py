@@ -13,7 +13,7 @@ from bot import keyboards as kb
 from bot import texts
 from bot.config import Settings
 from bot.db import Database, SlotTakenError
-from bot.utils import day_slots, format_date, normalize_phone, visit_datetime, working_days
+from bot.utils import day_slots, format_date_long, normalize_phone, visit_datetime, working_days
 
 router = Router(name="client")
 log = logging.getLogger(__name__)
@@ -53,7 +53,8 @@ async def _show_dates(message: Message, state: FSMContext, settings: Settings, d
     if not days:
         await message.edit_text(texts.NO_DATES)
         return
-    await message.edit_text(texts.CHOOSE_DATE.format(service=data["service"]), reply_markup=kb.dates_kb(list(days)))
+    markup = kb.dates_kb(list(days), settings.now().date())
+    await message.edit_text(texts.CHOOSE_DATE.format(service=data["service"]), reply_markup=markup)
 
 
 async def _limit_reached(user_id: int, db: Database, settings: Settings) -> bool:
@@ -143,10 +144,10 @@ async def pick_date(call: CallbackQuery, state: FSMContext, settings: Settings, 
         await _show_dates(call.message, state, settings, db)
         return
     data = await state.get_data()
-    await state.update_data(date=day.isoformat(), date_label=format_date(day))
+    await state.update_data(date=day.isoformat(), date_label=format_date_long(day))
     await state.set_state(Booking.time)
     await call.message.edit_text(
-        texts.CHOOSE_TIME.format(service=data["service"], date=format_date(day)), reply_markup=kb.times_kb(slots)
+        texts.CHOOSE_TIME.format(service=data["service"], date=format_date_long(day)), reply_markup=kb.times_kb(slots)
     )
     await call.answer()
 

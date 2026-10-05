@@ -5,6 +5,7 @@ import pytest
 from bot.db import STATUSES
 from bot.utils import (
     day_slots,
+    format_created,
     format_date,
     format_date_long,
     format_phone,
@@ -65,7 +66,11 @@ def test_day_slots_last_slot_fits_before_end():
 
 
 def test_format_dates():
-    assert format_date(date(2026, 10, 1)) == "01.10 (Чт)"
+    today = date(2026, 9, 29)
+    assert format_date(date(2026, 9, 29), today) == "Сегодня"
+    assert format_date(date(2026, 9, 30), today) == "Завтра"
+    assert format_date(date(2026, 10, 1), today) == "Чт 01.10"
+    assert format_created("2026-10-05 15:33") == "05.10 в 15:33"
     assert format_date_long(date(2026, 10, 1)) == "чт, 1 октября"
 
 

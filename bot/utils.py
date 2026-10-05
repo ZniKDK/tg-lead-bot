@@ -76,9 +76,19 @@ def day_slots(
     return slots
 
 
-def format_date(day: date) -> str:
-    """Короткая подпись для кнопки: «01.10 (Чт)»."""
-    return f"{day.strftime('%d.%m')} ({WEEKDAYS[day.weekday()]})"
+def format_date(day: date, today: date) -> str:
+    """Короткая подпись для кнопки: «Сегодня», «Завтра» или «Чт 01.10»."""
+    if day == today:
+        return "Сегодня"
+    if day == today + timedelta(days=1):
+        return "Завтра"
+    return f"{WEEKDAYS[day.weekday()]} {day.strftime('%d.%m')}"
+
+
+def format_created(raw: str) -> str:
+    """«2026-10-05 15:33» из базы → «05.10 в 15:33»."""
+    created = datetime.strptime(raw, "%Y-%m-%d %H:%M")
+    return f"{created:%d.%m} в {created:%H:%M}"
 
 
 def format_date_long(day: date) -> str:

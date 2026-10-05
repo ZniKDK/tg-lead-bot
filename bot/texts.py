@@ -5,7 +5,7 @@ from html import escape
 
 from bot.config import Settings
 from bot.db import STATUSES
-from bot.utils import format_date_long, format_phone
+from bot.utils import format_created, format_date_long, format_phone
 
 CLIENT_HELP = (
     "<b>Что умеет бот</b>\n\n"
@@ -121,7 +121,7 @@ def lead_card(lead: dict) -> str:
         f"{visit_line(lead)}\n"
         f"Имя: {escape(lead['name'])}\n"
         f"Телефон: {format_phone(lead['phone'])}\n"
-        f"Создана: {lead['created_at']}"
+        f"Создана: {format_created(lead['created_at'])}"
     )
     if lead["status"] == "canceled" and lead.get("canceled_by") == "client":
         text += "\n<i>Отменил клиент</i>"
