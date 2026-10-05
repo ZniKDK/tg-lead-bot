@@ -160,9 +160,16 @@ async def confirm(call: CallbackQuery, state: FSMContext, bot: Bot, db: Database
             log.exception("Не удалось уведомить админа %s", admin_id)
 
 
-@router.message(Booking.service)
-@router.message(Booking.date)
-@router.message(Booking.time)
-@router.message(Booking.confirm)
-async def use_buttons(message: Message) -> None:
-    await message.answer("Пожалуйста, воспользуйтесь кнопками выше 👆 или /cancel, чтобы начать заново.")
+# Последний хендлер: ловит всё, что не подошло выше (текст вне записи, стикеры, фото,
+# неизвестные команды), чтобы бот никогда не молчал
+@router.message()
+async def fallback(message: Message, state: FSMContext) -> None:
+    current = await state.get_state()
+    if current is None:
+        await message.answer(texts.FALLBACK_IDLE)
+    elif current == Booking.name.state:
+        await message.answer(texts.ASK_NAME)
+    elif current == Booking.phone.state:
+        await message.answer(texts.BAD_PHONE)
+    else:
+        await message.answer(texts.USE_BUTTONS)

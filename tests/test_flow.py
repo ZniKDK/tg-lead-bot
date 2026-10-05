@@ -158,3 +158,23 @@ async def test_admin_commands_only_for_admin(harness):
 
     await harness.press("status:1:done", user=admin_user)
     assert (await harness.db.get_lead(1))["status"] == "done"
+
+
+async def test_text_without_command_gets_hint(harness):
+    await harness.text("Здравствуйте, сколько стоит ремонт?")
+    last = harness.session.sent("SendMessage")[-1]
+    assert "/start" in last.text
+
+
+async def test_text_instead_of_buttons_gets_hint(harness):
+    await harness.text("/start")
+    await harness.press("svc:0")
+    await harness.text("завтра в 12")
+    last = harness.session.sent("SendMessage")[-1]
+    assert "кнопками" in last.text
+
+
+async def test_admin_command_from_client_not_silent(harness):
+    await harness.text("/export")
+    assert harness.session.sent("SendDocument") == []
+    assert "/start" in harness.session.sent("SendMessage")[-1].text
