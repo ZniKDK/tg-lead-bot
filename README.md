@@ -11,21 +11,29 @@
 
 ## Как это выглядит
 
-| Клиент выбирает день | …и свободное время |
+| Клиент выбирает услугу | …и день |
 |---|---|
-| ![Выбор дня](docs/screenshots/01-dates.png) | ![Выбор времени](docs/screenshots/02-times.png) |
+| ![Услуги с ценами](docs/screenshots/01-start.png) | ![Выбор дня](docs/screenshots/02-dates.png) |
 
-Имя и телефон можно ввести текстом или отправить кнопкой:
+Бот проверяет телефон и подсказывает формат:
 
-![Имя и телефон](docs/screenshots/03-name-phone.png)
+![Проверка телефона](docs/screenshots/03-phone-check.png)
 
-| Админу приходит заявка | Статус меняется одной кнопкой |
+| Клиент получает подтверждение | Админ получает карточку заявки |
 |---|---|
-| ![Новая заявка](docs/screenshots/04-confirm-admin.png) | ![Смена статуса](docs/screenshots/05-status.png) |
+| ![Заявка принята](docs/screenshots/05-done.png) | ![Карточка заявки](docs/screenshots/06-admin-card.png) |
 
-Командой `/export` админ выгружает все заявки:
+| Админ подтвердил, клиенту пришёл ответ | Клиент видит и отменяет свои записи |
+|---|---|
+| ![Запись подтверждена](docs/screenshots/07-confirmed.png) | ![Мои записи](docs/screenshots/08-my.png) |
 
-![Выгрузка в CSV](docs/screenshots/06-export.png)
+За сутки и за 2 часа до визита бот напоминает о записи:
+
+![Напоминание](docs/screenshots/10-reminder.png)
+
+Расписание дня для администратора, команда `/tomorrow`:
+
+![Расписание](docs/screenshots/09-schedule.png)
 
 ## Возможности
 
